@@ -30,7 +30,7 @@ func SetMachineConfig(c *Client, vcpus int, memMB int) error {
 	cfg := MachineConfig{
 		VcpuCount:  vcpus,
 		MemSizeMib: memMB,
-		HtEnabled:  false,
+		Smt:        false,
 	}
 
 	body, status, err := c.Request("PUT", "/machine-config", cfg)
@@ -142,7 +142,7 @@ func GetMachineConfig(c *Client) error {
 		if json.Unmarshal(body, &cfg) == nil {
 			fmt.Printf("    vCPUs: %d\n", cfg.VcpuCount)
 			fmt.Printf("    Memory: %d MB\n", cfg.MemSizeMib)
-			fmt.Printf("    HT: %v\n", cfg.HtEnabled)
+			fmt.Printf("    HT/SMT: %v\n", cfg.Smt)
 		} else {
 			fmt.Printf("    Raw: %s\n", string(body))
 		}

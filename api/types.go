@@ -6,10 +6,13 @@ package api
 // Not all fields are included — just the ones needed for a basic boot sequence.
 
 // MachineConfig sets the VM's hardware: how many CPUs and how much memory.
+// Note: Firecracker v1.15+ uses "smt" instead of the old "ht_enabled" field.
+// I found this out when the real API returned a 400 with:
+//   "unknown field `ht_enabled`, expected one of `vcpu_count`, `mem_size_mib`, `smt`..."
 type MachineConfig struct {
 	VcpuCount  int  `json:"vcpu_count"`
 	MemSizeMib int  `json:"mem_size_mib"`
-	HtEnabled  bool `json:"ht_enabled"`
+	Smt        bool `json:"smt"`
 }
 
 // BootSource tells Firecracker where to find the kernel and what boot args to pass.
